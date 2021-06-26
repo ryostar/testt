@@ -40,24 +40,6 @@ INPUT = lg + '[' + cy + '~' + lg + ']' + rs
 plus = w + '[' + lg + '+' + w + ']' + rs
 minus = w + '[' + lg + '-' + w + ']' + rs
 
-def banner():
-    # fancy logo
-    b = [                                                                                                  
-    '88888888888  888b     d888 8888888888        d88P 888    d8P  888     888 8888888b.  8888888 .d8888b.   .d8888b.  ',
-    '    888      8888b   d8888 888              d88P  888   d8P   888     888 888   Y88b   888  d88P  Y88b d88P  Y88b ',
-    '    888      88888b.d88888 888             d88P   888  d8P    888     888 888    888   888  888        888    888 ',
-    '    888      888Y88888P888 8888888        d88P    888d88K     888     888 888   d88P   888  888d888b.  Y88b. d888 ',
-    '    888      888 Y888P 888 888           d88P     8888888b    888     888 8888888P"    888  888P "Y88b  "Y888P888 ',
-    '    888      888  Y8P  888 888          d88P      888  Y88b   888     888 888 T88b     888  888    888        888 ',
-    '    888  d8b 888   "   888 888         d88P       888   Y88b  Y88b. .d88P 888  T88b    888  Y88b  d88P Y88b  d88P ',
-    '    888  Y8P 888       888 8888888888 d88P        888    Y88b  "Y88888P"  888   T88b 8888888 "Y8888P"   "Y8888P"  '                                                                                                                                           
-    ]
-    for char in b:
-        print(f'{random.choice(colors)}{char}{rs}')
-    print('=============SABO==============')
-    print(f'{lg}   Version: {w}1.0{lg} | Tác giả: {w}SABO{rs}\n')
-
-
 # function to clear screen
 def clr():
     if os.name == 'nt':
@@ -218,12 +200,12 @@ for acc in to_use:
     if index >= approx_members_count:
         print(f'{error}{lg} Không có thành viên nào để thêm!')
         continue
-    print(f'{info}{lg} Start: {w}{index}')
+    print(f'{info}{lg} Bắt đầu: {w}{index}')
     #adding_status = 0
     peer_flood_status = 0
     for user in members[index:stop]:
         index += 1
-        if peer_flood_status == 10:
+        if peer_flood_status == 5:
             print(f'{error}{r} Quá nhiều lỗi lũ lụt ngang hàng! Đang đỗi phiên..')
             break
         try:
@@ -241,7 +223,7 @@ for acc in to_use:
             print(f'{plus}{grey} Tài khoản: {cy}{acc_name}{lg} -- {cy}{user_id} {lg}--> {cy}{target_title}')
             #print(f'{info}{grey} User: {cy}{acc_name}{lg} -- Ngủ 1 giây')
             adding_status += 1
-            print(f'{info}{grey} Tài khoản: {cy}{acc_name}{lg} -- Ngủ {w}{sleep_time} {lg} giây')
+           # print(f'{info}{grey} Tài khoản: {cy}{acc_name}{lg} -- Ngủ {w}{sleep_time} {lg} giây')
             time.sleep(sleep_time)
         except UserPrivacyRestrictedError:
             print(f'{minus}{grey} Tài khoản: {cy}{acc_name}{lg} -- {r}Lỗi hạn chế quyền riêng tư của người dùng')
