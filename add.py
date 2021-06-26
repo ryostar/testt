@@ -40,6 +40,24 @@ INPUT = lg + '[' + cy + '~' + lg + ']' + rs
 plus = w + '[' + lg + '+' + w + ']' + rs
 minus = w + '[' + lg + '-' + w + ']' + rs
 
+def banner():
+    # fancy logo
+    b = [
+    '88888888888  888b     d888 8888888888        d88P 888    d8P  888     888 8888888b.  8888888 .d8888b.   .d8888b.  ',
+    '    888      8888b   d8888 888              d88P  888   d8P   888     888 888   Y88b   888  d88P  Y88b d88P  Y88b ',
+    '    888      88888b.d88888 888             d88P   888  d8P    888     888 888    888   888  888        888    888 ',
+    '    888      888Y88888P888 8888888        d88P    888d88K     888     888 888   d88P   888  888d888b.  Y88b. d888 ',
+    '    888      888 Y888P 888 888           d88P     8888888b    888     888 8888888P"    888  888P "Y88b  "Y888P888 ',
+    '    888      888  Y8P  888 888          d88P      888  Y88b   888     888 888 T88b     888  888    888        888 ',
+    '    888  d8b 888   "   888 888         d88P       888   Y88b  Y88b. .d88P 888  T88b    888  Y88b  d88P Y88b  d88P ',
+    '    888  Y8P 888       888 8888888888 d88P        888    Y88b  "Y88888P"  888   T88b 8888888 "Y8888P"   "Y8888P"  '
+    ]
+    for char in b:
+        print(f'{random.choice(colors)}{char}{rs}')
+    print('=============SABO==============')
+    print(f'{lg}   Version: {w}1.1{lg} | Tác giả: {w}SABO{rs}\n')
+
+
 # function to clear screen
 def clr():
     if os.name == 'nt':
@@ -67,9 +85,9 @@ for a in accounts:
     if not clnt.is_user_authorized():
         try:
             clnt.send_code_request(phn)
-            print('OK')
+            print('Đang hoạt động')
         except PhoneNumberBannedError:
-            print(f'{error} {w}{phn} {r}is banned!{rs}')
+            print(f'{error} {w}{phn} {r}đã bị khóa!{rs}')
             banned.append(a)
     for z in banned:
         accounts.remove(z)
@@ -78,7 +96,7 @@ for a in accounts:
     clnt.disconnect()
 
 
-print(info+' Đã tạo phiên!')
+print(info+' Đã tạo phiên đăng nhập!')
 clr()
 banner()
 # func to log scraping details(link of the grp to scrape
@@ -124,16 +142,16 @@ while True:
     except EOFError:
         break
 
-print(f'{info}{lg} Tổng số tài khoản: {w}{len(accounts)}')
-number_of_accs = int(input(f'{INPUT}{cy} Nhập số tài khoản để sử dụng: {r}'))
-print(f'{info}{cy} Chọn một sự lựa chọn{lg}')
-print(f'{cy}[0]{lg} Thêm vào nhóm công khai')
-print(f'{cy}[1]{lg} Thêm vào nhóm riêng tư')
-choice = int(input(f'{INPUT}{cy} Nhập lựa chọn: {r}'))
+print(f'{info}{lg} Tổng tài khoản: {w}{len(accounts)}')
+number_of_accs = int(input(f'{INPUT}{cy} Nhập số lượng tài khoản để sử dụng: {w}'))
+print(f'{info}{cy} Vui lòng xác nhận!{lg}')
+print(f'{cy}[0]{lg} Nhập 0 để xác nhận!!!')
+#print(f'{r}[1] [Đang bảo trì] Thêm vào nhóm riêng tư')
+choice = int(input(f'{INPUT}{cy} Nhập: '))
 if choice == 0:
-    target = str(input(f'{INPUT}{cy} Nhập liên kết nhóm công khai: {r}'))
+    target = str(input(f'{INPUT}{cy} Nhập liên kết nhóm công khai: {w}'))
 else:
-    target = str(input(f'{INPUT}{cy} Nhập liên kết nhóm riêng tư: {r}'))
+    target = str(input(f'{INPUT}{r} Thêm vào nhóm riêng tư đang lỗi {r}'))
 print(f'{grey}_'*50)
 status_choice = str(input(f'{INPUT}{cy} Bạn có muốn lọc thành viên hoạt động không?[y/n]: {r}'))
 to_use = [x for x in accounts[:number_of_accs]]
@@ -144,9 +162,9 @@ with open('vars.txt', 'wb') as f:
     for ab in to_use:
         pickle.dump(ab, f)
     f.close()
-sleep_time = int(input(f'{INPUT}{cy} Nhập thời gian trễ cho mỗi yêu cầu{w}[{lg}0 for None{w}]: {r}'))
-#print(f'{info}{lg} Tham gia nhóm từ {w}{number_of_accs} tài khoản...')
-#print(f'{grey}-'*50)
+sleep_time = int(input(f'{INPUT}{cy} Nhập thời gian trễ cho mỗi yêu cầu{w}[{lg}Lớn hơn 0{w}]: {r}'))
+print(f'{info}{lg} Tham gia nhóm từ {w}{number_of_accs} tài khoản...')
+print(f'{grey}-'*50)
 print(f'{success}{lg} -- Thêm thành viên từ {w}{len(to_use)}{lg} tài khoản --')
 adding_status = 0
 approx_members_count = 0
@@ -155,18 +173,18 @@ for acc in to_use:
     c = TelegramClient(f'sessions/{acc[0]}', 3910389 , '86f861352f0ab76a251866059a6adbd6')
     c.start()
     acc_name = c.get_me().first_name
-    print(f'{plus}{grey} User: {cy}{acc_name}{lg} -- {cy}Phiên bắt đầu ')
+    print(f'{plus}{grey} User: {cy}{acc_name}{lg} -- {cy}Bắt đầu đăng nhập ')
     try:
         if '/joinchat/' in scraped_grp:
             g_hash = scraped_grp.split('/joinchat/')[1]
             try:
                 c(ImportChatInviteRequest(g_hash))
-                print(f'{plus}{grey} Tài khoản: {cy}{acc_name}{lg} -- Đã tham gia nhóm để cạo')
+                print(f'{plus}{grey} Tài khoản {cy}{acc_name}{lg} -- Đã tham gia nhóm để cạo')
             except UserAlreadyParticipantError:
                 pass 
         else:
             c(JoinChannelRequest(scraped_grp))
-            print(f'{plus}{grey} Tài khoản: {cy}{acc_name}{lg} -- Đã tham gia nhóm để cạo')
+            print(f'{plus}{grey} Tài khoản {cy}{acc_name}{lg} -- Đã tham gia nhóm để cạo')
         scraped_grp_entity = c.get_entity(scraped_grp)
         if choice == 0:
             c(JoinChannelRequest(target))
@@ -177,7 +195,7 @@ for acc in to_use:
             try:
                 grp_hash = target.split('/joinchat/')[1]
                 c(ImportChatInviteRequest(grp_hash))
-                print(f'{plus}{grey} Tài khoản: {cy}{acc_name}{lg} -- Đã tham gia nhóm để thêm thành viên')
+                print(f'{plus}{grey} Tài khoản {cy}{acc_name}{lg} -- Đã tham gia nhóm để thêm thành viên')
             except UserAlreadyParticipantError:
                 pass
             target_entity = c.get_entity(target)
@@ -186,7 +204,7 @@ for acc in to_use:
         print(f'{error}{r} Tài khoản: {cy}{acc_name}{lg} -- Không thể tham gia nhóm')
         print(f'{error} {r}{e}')
         continue
-    print(f'{plus}{grey} Tài khoản: {cy}{acc_name}{lg} -- {cy}Truy xuất các thực thể...')
+    print(f'{plus}{grey} Tài khoản {cy}{acc_name}{lg} -- {cy}Đang tiến hành xuất dữ liệu...')
     #c.get_dialogs()
     try:
         members = []
@@ -200,13 +218,13 @@ for acc in to_use:
     if index >= approx_members_count:
         print(f'{error}{lg} Không có thành viên nào để thêm!')
         continue
-    print(f'{info}{lg} Bắt đầu: {w}{index}')
+    print(f'{info}{lg} Bắt đầu từ: {w}{index}')
     #adding_status = 0
     peer_flood_status = 0
     for user in members[index:stop]:
         index += 1
         if peer_flood_status == 5:
-            print(f'{error}{r} Quá nhiều lỗi lũ lụt ngang hàng! Đang đỗi phiên..')
+            print(f'{error}{r} Đã đạt ngưỡng, bắt đầu đổi tài khoản khác..')
             break
         try:
             if status_choice == 'y':
@@ -220,16 +238,16 @@ for acc in to_use:
                 c(AddChatUserRequest(target_details.id, user, 100))
             user_id = user.first_name
             target_title = target_entity.title
-            print(f'{plus}{grey} Tài khoản: {cy}{acc_name}{lg} -- {cy}{user_id} {lg}--> {cy}{target_title}')
+            print(f'{plus}{cy} {acc_name}{lg} đã thêm {cy}{user_id} {lg}vào {cy}{target_title}')
             #print(f'{info}{grey} User: {cy}{acc_name}{lg} -- Ngủ 1 giây')
             adding_status += 1
-           # print(f'{info}{grey} Tài khoản: {cy}{acc_name}{lg} -- Ngủ {w}{sleep_time} {lg} giây')
+           # print(f'{info}{grey}{cy}{acc_name}{lg} -- Ngủ {w}{sleep_time} {lg} giây')
             time.sleep(sleep_time)
         except UserPrivacyRestrictedError:
             print(f'{minus}{grey} Tài khoản: {cy}{acc_name}{lg} -- {r}Lỗi hạn chế quyền riêng tư của người dùng')
             continue
         except PeerFloodError:
-            print(f'{error}{grey} Tài khoản: {cy}{acc_name}{lg} -- {r}Lỗi lũ lụt ngang hàng.')
+            print(f'{error}{grey} Tài khoản {cy}{acc_name}{lg} -- {r}Không thể thêm người dùng.')
             peer_flood_status += 1
             continue
         except ChatWriteForbiddenError:
@@ -238,13 +256,13 @@ for acc in to_use:
                 log_status(scraped_grp, index)
             exit_window()
         except UserBannedInChannelError:
-            print(f'{error}{grey} Tài khoản: {cy}{acc_name}{lg} -- {r}Bị cấm viết trong nhóm')
+            print(f'{error}{grey} Tài khoản {cy}{acc_name}{lg} -- {r}Bị hạn chế trong nhóm công khai')
             break
         except ChatAdminRequiredError:
-            print(f'{error}{grey} Người dùng: {cy}{acc_name}{lg} -- {r}Cần thêm quyền Quản trị trò chuyện')
+            print(f'{error}{grey} Người dùng {cy}{acc_name}{lg} -- {r}Cần thêm quyền Quản trị trò chuyện')
             break
         except UserAlreadyParticipantError:
-            print(f'{minus}{grey} Người dùng: {cy}{acc_name}{lg} -- {r}Người dùng đã là người tham gia')
+            print(f'{minus}{grey} Người dùng {cy}{acc_name}{lg} -- {r}Người dùng đã là người tham gia')
             continue
         except FloodWaitError as e:
             print(f'{error}{r} {e}')
